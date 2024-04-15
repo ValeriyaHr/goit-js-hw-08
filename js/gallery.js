@@ -88,7 +88,7 @@ const images = [
 
   function openModal(event) {
     event.preventDefault();
-    if (event.target.nodeName !== 'IMG') {
+    if (event.target.nodeName !== 'img') {
       return;
     }
     const largeImageURL = event.target.dataset.source;
