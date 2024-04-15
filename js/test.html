@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Gallery</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basiclightbox/dist/basicLightbox.min.css">
+  <style>
+    .gallery {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0;
+      margin: 0;
+    }
+    .gallery-item {
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+    .gallery-link {
+      text-decoration: none;
+      color: inherit;
+    }
+    .gallery-image {
+      width: 150px;
+      height: 100px;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+
+<ul class="gallery"></ul>
+
+<script>
+  const images = [
+    {
+      preview:
+        'https://cdn.pixabay.com/photo/2019/05/14/16/43/rchids-4202820__480.jpg',
+      original:
+        'https://cdn.pixabay.com/photo/2019/05/14/16/43/rchids-4202820_1280.jpg',
+      description: 'Hokkaido Flower',
+    },
+    // Add other image objects here
+  ];
+
+  const gallery = document.querySelector('.gallery');
+
+  function createGalleryItem({ preview, original, description }) {
+    const item = document.createElement('li');
+    item.classList.add('gallery-item');
+
+    const link = document.createElement('a');
+    link.classList.add('gallery-link');
+    link.href = original;
+
+    const image = document.createElement('img');
+    image.classList.add('gallery-image');
+    image.src = preview;
+    image.setAttribute('data-source', original);
+    image.alt = description;
+
+    link.appendChild(image);
+    item.appendChild(link);
+
+    return item;
+  }
+
+  function openModal(event) {
+    event.preventDefault();
+    if (event.target.nodeName !== 'IMG') {
+      return;
+    }
+    const largeImageURL = event.target.dataset.source;
+    const instance = basicLightbox.create(`
+      <img src="${largeImageURL}" width="800" height="600">
+    `);
+    instance.show();
+  }
+
+  gallery.addEventListener('click', openModal);
+
+  images.forEach(image => {
+    const item = createGalleryItem(image);
+    gallery.appendChild(item);
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/basiclightbox/dist/basicLightbox.min.js"></script>
+</body>
+</html>
