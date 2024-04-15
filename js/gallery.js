@@ -64,46 +64,77 @@ const images = [
     },
   ];
 
-  const gallery = document.querySelector('.gallery');
+  const renderGallery = (images) => {
+    const gallery = document.querySelector(".gallery");
+  
+    const createGalleryItem = ({ preview, original, description }) => {
+      const listItem = document.createElement("li");
+      listItem.classList.add("gallery-item");
+  
+      const link = document.createElement("a");
+      link.classList.add("gallery-link");
+      link.href = original;
+      link.setAttribute("target", "_blank");
+      link.setAttribute("rel", "noopener noreferrer");
+  
+      const image = document.createElement("img");
+      image.classList.add("gallery-image");
+      image.src = preview;
+      image.dataset.source = original;
+      image.alt = description;
+  
+      link.appendChild(image);
+      listItem.appendChild(link);
+  
+      return listItem;
+    };
+  
+    const galleryItems = images.map(createGalleryItem);
+    gallery.append(...galleryItems);
+  };
+  
+  renderGallery(images);
 
-  function createGalleryItem({ preview, original, description }) {
-    const item = document.createElement('li');
-    item.classList.add('gallery-item');
+  // const gallery = document.querySelector('.gallery');
 
-    const link = document.createElement('a');
-    link.classList.add('gallery-link');
-    link.href = original;
+  // function createGalleryItem({ preview, original, description }) {
+  //   const item = document.createElement('li');
+  //   item.classList.add('gallery-item');
 
-    const image = document.createElement('img');
-    image.classList.add('gallery-image');
-    image.src = preview;
-    image.setAttribute('data-source', original);
-    image.alt = description;
+  //   const link = document.createElement('a');
+  //   link.classList.add('gallery-link');
+  //   link.href = original;
 
-    link.appendChild(image);
-    item.appendChild(link);
+  //   const image = document.createElement('img');
+  //   image.classList.add('gallery-image');
+  //   image.src = preview;
+  //   image.setAttribute('data-source', original);
+  //   image.alt = description;
 
-    return item;
-  }
+  //   link.appendChild(image);
+  //   item.appendChild(link);
 
-  function openModal(event) {
-    event.preventDefault();
-    if (event.target.nodeName !== 'img') {
-      return;
-    }
-    const largeImageURL = event.target.dataset.source;
-    const instance = basicLightbox.create(`
-      <img src="${largeImageURL}" width="800" height="600">
-    `);
-    instance.show();
-  }
+  //   return item;
+  // }
 
-  gallery.addEventListener('click', openModal);
+  // function openModal(event) {
+  //   event.preventDefault();
+  //   if (event.target.nodeName !== 'img') {
+  //     return;
+  //   }
+  //   const largeImageURL = event.target.dataset.source;
+  //   const instance = basicLightbox.create(`
+  //     <img src="${largeImageURL}" width="800" height="600">
+  //   `);
+  //   instance.show();
+  // }
 
-  images.forEach(image => {
-    const item = createGalleryItem(image);
-    gallery.appendChild(item);
-  });
+  // gallery.addEventListener('click', openModal);
+
+  // images.forEach(image => {
+  //   const item = createGalleryItem(image);
+  //   gallery.appendChild(item);
+  // });
 
   // const galleryList = document.querySelector('.gallery');
 //------ begin createGalleryItem Create html block one gallery items
